@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <!--
+        Personalice la directiva de seguridad de contenido en la etiqueta meta como sea necesario. Agregue "unsafe-inline" a default-src para permitir JavaScript insertado.
+        Para obtener más detalles, consulte http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        
+        <script type="text/javascript" src="scripts/jquery-3.1.1.js"></script>
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <title>Laboratorio 10</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Conectando con el dispositivo</p>
+                <p class="event received">El dispositivo está preparado</p>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-4">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="tareaNombre">Tarea</label>
+                            <input type="text" class="form-control" id="tareaNombre" placeholder="Nombre de tarea">
+                        </div>
+                        <button type="button" class="btn btn-default" id="btnAddTarea">Agregar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4">
+                    <div class="list-group" id="listaTarea">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4">
+                    <button type="button" class="btn btn-default" id="btnVaciar">Vaciar lista</button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+        <script type="text/javascript" src="scripts/index.js"></script>
+        <script src="scripts/bootstrap.js"></script>
+
+        <script>          
+            $(document).ready(function(){
+
+                $("#btnAddTarea").click(
+                    function(){
+                        var str = "<a href=\"#\" class=\"list-group-item\" data-idtarea=\""+ contadorTareas+"\">"+ "<h4 class=\"list-group-item-heading\">"+$("#tareaNombre").val()+"</h4>"+ "<p class=\"list-group-item-text\"><div class=\"checkbox\"><label><input type=\"checkbox\">Finalizar</label></div></p></a>";
+                        $("#listaTarea").append(str);
+                        $("#tareaNombre").val('');
+                        contadorTareas++;
+                    }
+            );
+
+                $("#btnVaciar").click(
+                    function(){
+                        $("#listaTarea").empty();
+                    }
+                );
+
+                $('#listaTarea').on("click","a",function() {
+                    console.log($(this).attr('data-id-tarea'));
+                    var i = 1+$(this).index();
+                    console.log(i);
+                    $("#listaTarea a:nth-child(" + i + ")").remove();
+                    contadorTareas--;
+                });
+            });
+
+        </script>
+    </body>
+</html>
